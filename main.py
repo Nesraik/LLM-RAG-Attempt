@@ -85,6 +85,8 @@ def send_prompt():
 def attach_file():
     def worker():
         root.filename = filedialog.askopenfilename(initialdir = "/", title = "Select a File", filetypes = (("pdf files", "*.pdf"),))
+        if root.filename == "":
+            return root.filename
         shutil.copy(root.filename, 'data')
         init()
         result, _ = query_rag("Summarize the text")
@@ -93,7 +95,7 @@ def attach_file():
         textbox_chat.configure(state='disabled')
         loading_button.place_forget()
         
-        
+ 
     loading_button.place(in_=textbox_entry, x=button_x,y=button_y - 40)
     loading_button.configure(state='disabled')
     threading.Thread(target=worker).start()
@@ -122,9 +124,6 @@ button_y = (textbox_entry.winfo_height() - button_size) //2 +50
 send_button.place(in_=textbox_entry, x=button_x,y=button_y)
 
 attach_button.place(in_=textbox_entry, x=button_x,y=button_y - 40)
-
-
-
 
 
 root.mainloop()
